@@ -1,0 +1,90 @@
+-Público (sem login):
+    1-Home / Turmas — /turmas
+    Lista de turmas ativas (card/lista).
+    Filtros: busca por nome, ano letivo.
+    Ação: Ver ranking da turma.
+    
+    2-Ranking da Turma — /turmas/:id
+    Título/descrição da turma.
+    Tabela de ranking: Posição, Aluno, Total de pontos.
+    Busca por aluno, ordenação.
+    (Opcional) Aba “Últimos lançamentos” (somente leitura).
+    
+    3-404 / Acesso negado — /404 / /acesso-negado
+    Páginas de estado padrão.
+
+
+-Admin (professor, com login):
+	4-Login — /login
+        E-mail/senha → gera sessão/JWT.
+        Redireciona para o Dashboard.
+    	
+    	5-Dashboard — /admin
+        Atalhos rápidos: Turmas, Alunos, Lançar pontos.
+        KPIs simples (ex.: nº de turmas, nº de alunos).
+    
+    	6-Gerenciar Turmas — /admin/turmas
+        Lista/Cria/Edita/Arquiva turmas.
+        Cada item tem ação “Abrir turma”.
+    
+    	7-Turma (admin) — /admin/turmas/:id
+    	Abas sugeridas:
+        Alunos: lista de alunos dessa turma (CRUD rápido).
+            Ações: Adicionar aluno, Editar, Remover.
+        Ranking: mesma visão pública, com botões admin (ex.:editar aluno).
+        Lançamentos: histórico filtrável (por aluno, tipo, período).
+        (Opcional) Config. da turma: ano letivo, status “ativa”.
+    	
+    	8-Gerenciar Alunos — /admin/alunos
+        Lista geral de alunos com turma associada.
+        Ações: Criar (já escolhendo a turma), Editar, Remover.
+        Busca por nome e filtro por turma.
+    	
+    	9-Lançar Pontos — /admin/lancamentos
+        Passo a passo: Turma → Aluno → Tipo (Vitória/Empate/Derrota/Bônus/Ajuste) → Valor → Observação → Salvar.
+        Ao salvar: atualiza totalPontos do aluno e registra no histórico.
+    
+    	10-Configurações — /admin/config
+    	Regras de pontuação (valores de vitória/empate/derrota/bônus).
+    	Critérios de desempate (ordem).
+    	(Se houver mais de um) Gerir usuários/admin.
+    	
+    	11-Sair — /logout (ou ação no menu)
+    	Limpa sessão e volta ao /turmas.
+    	
+-------------------------------------------------------------
+    	
+-Fluxos principais (passo a passo)
+
+    Ver ranking (público):
+    Turmas (/turmas) → escolher turma → Ranking (/turmas/:id)
+
+    Criar turma (admin):
+    Login → Dashboard → Gerenciar Turmas → Novo → Salvar
+
+    Adicionar aluno numa turma (admin):
+    Dashboard → Turma (admin) → Aba Alunos → Adicionar aluno → Salvar
+    (No modelo atual, o aluno já nasce com turmaId definido.)
+
+    Lançar pontos para um aluno (admin):
+    Dashboard → Lançar Pontos → selecionar Turma → Aluno → Tipo/Valor → Salvar
+    → (Opcional) ver em Turma (admin) → Aba Lançamentos ou no Ranking.
+
+    Editar/Remover aluno (admin):
+    Turma (admin) → Aba Alunos → Editar/Remover
+
+    Ajustar regras (admin):
+    Dashboard → Configurações → Regras de pontuação / Desempate → Salvar
+
+
+-Rotas sugeridas (resumo)
+
+    Público:
+    /turmas, /turmas/:id, /404
+
+    Auth:
+    /login, /logout
+
+    Admin:
+    /admin, /admin/turmas, /admin/turmas/:id (abas: Alunos, Ranking, Lançamentos),
+    /admin/alunos, /admin/lancamentos, /admin/config
