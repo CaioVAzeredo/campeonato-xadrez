@@ -101,4 +101,8 @@ public class Professor {
 
         this.ultima_atualizacao = LocalDateTime.now();
     }
+
+    public void excluir() {
+        this.ativo = false;
+    }
 }
