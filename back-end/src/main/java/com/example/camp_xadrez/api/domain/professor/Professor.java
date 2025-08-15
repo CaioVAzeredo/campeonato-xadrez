@@ -1,6 +1,7 @@
 package com.example.camp_xadrez.api.domain.professor;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_professor")
     private Long id;
     private String nome;
     private String email;
@@ -88,8 +90,7 @@ public class Professor {
         this.ultima_atualizacao = ultima_atualizacao;
     }
 
-
-    public void atualizarProfessor(DadosAtualizarProfessor dados){
+    public void atualizarProfessor(@Valid DadosAtualizarProfessor dados){
         if(dados.nome() != null){
             this.nome = dados.nome();
         }
