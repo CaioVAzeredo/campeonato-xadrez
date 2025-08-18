@@ -1,23 +1,19 @@
 package com.example.camp_xadrez.api.domain.turma;
 
 import com.example.camp_xadrez.api.domain.professor.Professor;
-import jakarta.validation.constraints.NotBlank;
 
-public record DadosCadastroTurma(
-        @NotBlank
-        String nome,
+import java.time.LocalDateTime;
 
-        @NotBlank
+public record DadosAtualizarTurma(
+
         Professor professor,
 
-        @NotBlank
+        String nome,
+
         String descricao,
 
-        @NotBlank
         Integer ano_letivo,
 
-        @NotBlank
         boolean ativo
-
 ) {
 }

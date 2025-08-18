@@ -1,10 +1,12 @@
 package com.example.camp_xadrez.api.domain.turma;
 
+import com.example.camp_xadrez.api.domain.professor.Professor;
+
 import java.time.LocalDateTime;
 
 public class Turma {
-    private Long id_turma;
-    private Long id_professor;
+    private Long id;
+    private Professor professor;
     private String nome;
     private String descricao;
     private Integer ano_letivo;
@@ -13,26 +15,27 @@ public class Turma {
     private LocalDateTime data_atualizacao = LocalDateTime.now();
 
     public Turma(DadosCadastroTurma dados) {
+        this.professor = dados.professor();
         this.nome = dados.nome();
         this.descricao = dados.descricao();
         this.ano_letivo = dados.ano_letivo();
-        this.ativo = dados.ativo();
+        this.ativo = true;
     }
 
     public Long getId_turma() {
-        return id_turma;
+        return id;
     }
 
     public void setId_turma(Long id_turma) {
-        this.id_turma = id_turma;
+        this.id = id_turma;
     }
 
-    public Long getId_professor() {
-        return id_professor;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public void setId_professor(Long id_professor) {
-        this.id_professor = id_professor;
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
     public String getNome() {
@@ -83,10 +86,26 @@ public class Turma {
         this.data_atualizacao = data_atualizacao;
     }
 
-    public void atualizarTurma(){
-        //ainda falta adicionar
+    public void atualizarTurma(DadosAtualizarTurma dados) {
+        if (dados.professor() != null) {
+            this.professor = dados.professor();
+        }
+
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+
+        if (dados.descricao() != null) {
+            this.descricao = dados.descricao();
+        }
+
+        if (dados.ano_letivo() != null) {
+            this.ano_letivo = dados.ano_letivo();
+        }
+
     }
-    public void excluir(){
+
+    public void excluir() {
         this.ativo = false;
     }
 }
