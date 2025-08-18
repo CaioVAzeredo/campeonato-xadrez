@@ -1,11 +1,29 @@
 package com.example.camp_xadrez.api.domain.turma;
 
 import com.example.camp_xadrez.api.domain.professor.Professor;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Table(name = "turma")
+@Entity(name = "Turma")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Turma {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_turma")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_professor", nullable = false, foreignKey = @ForeignKey(name = "fk_turma_professor")
+    )
     private Professor professor;
     private String nome;
     private String descricao;
