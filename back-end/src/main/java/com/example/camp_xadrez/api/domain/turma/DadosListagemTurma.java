@@ -13,7 +13,6 @@ public record DadosListagemTurma(
         LocalDateTime data_atualizacao,
         Long id_professor,
         String nome_professor
-
 ) {
     public DadosListagemTurma(Turma turma) {
         this(

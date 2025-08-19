@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 @RestController
 @RequestMapping("turma")
 @SecurityRequirement(name = "bearer-key")
@@ -27,7 +26,8 @@ public class TurmaController {
     @Autowired
     private TurmaRepository repository;
 
-    @Autowired ProfessorRepository professorRepository;
+    @Autowired
+    ProfessorRepository professorRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -46,18 +46,18 @@ public class TurmaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemTurma>> listar(@ParameterObject @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemTurma>> listar(@ParameterObject @PageableDefault(size = 10, sort = "ponto_total", direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemTurma::new);
         return ResponseEntity.ok(page);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizarTurma dados){
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizarTurma dados) {
         Turma turma = repository.getReferenceById(id);
 
         Professor professorRef = null;
-        if(dados.idProfessor() != null){
+        if (dados.idProfessor() != null) {
             professorRef = professorRepository.getReferenceById(dados.idProfessor());
         }
         turma.atualizarTurma(dados, professorRef);
@@ -66,10 +66,11 @@ public class TurmaController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id) {
         Turma turma = repository.getReferenceById(id);
         turma.excluir();
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok("Turma " + turma.getNome() + " excluída com sucesso!");
     }
 
 }

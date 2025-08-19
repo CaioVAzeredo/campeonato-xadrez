@@ -8,14 +8,13 @@ public record DadosCadastroTurma(
         @NotBlank
         String nome,
 
-        @NotNull
-        Long idProfessor,
-
         @NotBlank
         String descricao,
 
         @NotNull
-        Integer ano_letivo
+        Integer ano_letivo,
 
+        @NotNull
+        Long idProfessor
 ) {
 }

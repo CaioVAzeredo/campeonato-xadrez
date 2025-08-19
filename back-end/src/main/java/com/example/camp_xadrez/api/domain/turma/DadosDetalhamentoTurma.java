@@ -1,7 +1,5 @@
 package com.example.camp_xadrez.api.domain.turma;
 
-import com.example.camp_xadrez.api.domain.professor.DadosDetalhamentoProfessor;
-import com.example.camp_xadrez.api.domain.professor.Professor;
 
 public record DadosDetalhamentoTurma(
         Long id,
