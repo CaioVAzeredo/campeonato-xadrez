@@ -5,7 +5,8 @@ public record DadosListagemProfessor(
         String nome,
         String email,
         java.time.LocalDateTime dataCriacao,
-        java.time.LocalDateTime ultimaAtualizacao) {
+        java.time.LocalDateTime ultimaAtualizacao
+) {
     public DadosListagemProfessor(Professor professor){
         this(
                 professor.getId(),

@@ -21,19 +21,18 @@ public class Turma {
     @Column(name = "id_turma")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_professor", nullable = false, foreignKey = @ForeignKey(name = "fk_turma_professor")
-    )
-    private Professor professor;
     private String nome;
     private String descricao;
     private Integer ano_letivo;
     private boolean ativo;
     private LocalDateTime data_criacao = LocalDateTime.now();
-    private LocalDateTime data_atualizacao = LocalDateTime.now();
+    private LocalDateTime ultima_atualizacao = LocalDateTime.now();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_professor", nullable = false, foreignKey = @ForeignKey(name = "fk_turma_professor")
+    )
+    private Professor professor;
 
     public Turma(DadosCadastroTurma dados) {
-        this.professor = dados.professor();
         this.nome = dados.nome();
         this.descricao = dados.descricao();
         this.ano_letivo = dados.ano_letivo();
@@ -96,17 +95,17 @@ public class Turma {
         this.data_criacao = data_criacao;
     }
 
-    public LocalDateTime getData_atualizacao() {
-        return data_atualizacao;
+    public LocalDateTime getUltima_atualizacao() {
+        return ultima_atualizacao;
     }
 
-    public void setData_atualizacao(LocalDateTime data_atualizacao) {
-        this.data_atualizacao = data_atualizacao;
+    public void setUltima_atualizacao(LocalDateTime ultima_atualizacao) {
+        this.ultima_atualizacao = ultima_atualizacao;
     }
 
-    public void atualizarTurma(DadosAtualizarTurma dados) {
-        if (dados.professor() != null) {
-            this.professor = dados.professor();
+    public void atualizarTurma(DadosAtualizarTurma dados, Professor professorRefId) {
+        if (professorRefId != null) {
+            this.professor = professorRefId;
         }
 
         if (dados.nome() != null) {
@@ -120,6 +119,8 @@ public class Turma {
         if (dados.ano_letivo() != null) {
             this.ano_letivo = dados.ano_letivo();
         }
+
+        this.ultima_atualizacao = LocalDateTime.now();
 
     }
 

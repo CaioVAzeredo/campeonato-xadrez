@@ -1,7 +1,11 @@
 package com.example.camp_xadrez.api.controller;
 
+import com.example.camp_xadrez.api.domain.professor.Professor;
+import com.example.camp_xadrez.api.domain.professor.ProfessorRepository;
 import com.example.camp_xadrez.api.domain.turma.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
@@ -23,10 +27,19 @@ public class TurmaController {
     @Autowired
     private TurmaRepository repository;
 
+    @Autowired ProfessorRepository professorRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTurma dados, UriComponentsBuilder uriBuilder) {
         Turma turma = new Turma(dados);
+
+        var professorRef = professorRepository.getReferenceById(dados.idProfessor());
+        turma.setProfessor(professorRef);
+
         repository.save(turma);
         var uri = uriBuilder.path("/turma/{id}").buildAndExpand(turma.getId_turma()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTurma(turma));
@@ -42,7 +55,12 @@ public class TurmaController {
     @Transactional
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizarTurma dados){
         Turma turma = repository.getReferenceById(id);
-        turma.atualizarTurma(dados);
+
+        Professor professorRef = null;
+        if(dados.idProfessor() != null){
+            professorRef = professorRepository.getReferenceById(dados.idProfessor());
+        }
+        turma.atualizarTurma(dados, professorRef);
         return ResponseEntity.ok(new DadosDetalhamentoTurma(turma));
     }
 

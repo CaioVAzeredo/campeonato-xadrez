@@ -8,6 +8,8 @@ public record DadosAtualizarTurma(
 
         Professor professor,
 
+        Long idProfessor,
+
         String nome,
 
         String descricao,
