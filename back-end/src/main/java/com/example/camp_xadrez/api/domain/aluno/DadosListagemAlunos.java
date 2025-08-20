@@ -6,17 +6,18 @@ import com.example.camp_xadrez.api.domain.turma.Turma;
 public record DadosListagemAlunos(
         Long id,
         String nome,
-        Integer pontos_total,
-        Long id_turma
+        Float pontos_total,
+        Long id_turma,
+        String nome_turma
 
 ) {
-    public DadosListagemAlunos(Aluno aluno){
+    public DadosListagemAlunos(Aluno aluno) {
         this(
                 aluno.getId(),
                 aluno.getNome(),
                 aluno.getPontos_total(),
-               aluno.getTurma().getId_turma()
-
+                aluno.getTurma().getId_turma(),
+                aluno.getTurma().getNome()
         );
     }
 }

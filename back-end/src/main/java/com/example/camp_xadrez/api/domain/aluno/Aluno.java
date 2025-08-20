@@ -24,7 +24,7 @@ public class Aluno {
     @JoinColumn(name = "id_turma", nullable = false, foreignKey = @ForeignKey(name = "fk_aluno_turma"))
     private Turma turma;
     private String nome;
-    private Integer pontos_total;
+    private Float pontos_total;
     private boolean ativo;
     private LocalDateTime data_criacao = LocalDateTime.now();
     private LocalDateTime ultima_atualizacao = LocalDateTime.now();
@@ -59,11 +59,11 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public Integer getPontos_total() {
+    public Float getPontos_total() {
         return pontos_total;
     }
 
-    public void setPontos_total(Integer pontos_total) {
+    public void setPontos_total(Float pontos_total) {
         this.pontos_total = pontos_total;
     }
 
@@ -102,6 +102,9 @@ public class Aluno {
 
         if (dados.pontos_total() != null) {
             this.pontos_total = dados.pontos_total();
+        }
+        if(dados.id_turma() != null){
+            this.setTurma(turmaRefId);
         }
 
         this.ultima_atualizacao = LocalDateTime.now();

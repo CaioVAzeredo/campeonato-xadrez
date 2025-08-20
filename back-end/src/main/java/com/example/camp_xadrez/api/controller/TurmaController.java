@@ -46,7 +46,7 @@ public class TurmaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListagemTurma>> listar(@ParameterObject @PageableDefault(size = 10, sort = "ponto_total", direction = Sort.Direction.ASC) Pageable paginacao) {
+    public ResponseEntity<Page<DadosListagemTurma>> listar(@ParameterObject @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemTurma::new);
         return ResponseEntity.ok(page);
     }
