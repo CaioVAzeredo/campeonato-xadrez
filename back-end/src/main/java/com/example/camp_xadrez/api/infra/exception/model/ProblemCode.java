@@ -1,0 +1,14 @@
+package com.example.camp_xadrez.api.infra.exception.model;
+
+public enum ProblemCode {
+    ALUNO_NAO_ENCONTRADO,
+    TURMA_NAO_ENCONTRADO,
+    ERRO_VALIDACAO,
+    JSON_INVALIDO,
+    ACESSO_DANIFICADO,
+    METODO_NAO_PERMITIDO,
+    ROTA_NAO_ENCONTRADA,
+    CONFLITO,
+    INTEGRIDADE_DADOS,
+    ERRO_INTERNO,
+}
