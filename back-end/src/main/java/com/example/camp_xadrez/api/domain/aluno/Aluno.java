@@ -103,8 +103,9 @@ public class Aluno {
         if (dados.pontos_total() != null) {
             this.pontos_total = dados.pontos_total();
         }
+
         if(dados.id_turma() != null){
-            this.setTurma(turmaRefId);
+            this.turma = turmaRefId;
         }
 
         this.ultima_atualizacao = LocalDateTime.now();

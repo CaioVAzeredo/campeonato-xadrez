@@ -31,6 +31,13 @@ public class AlunoController {
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroAluno dados, UriComponentsBuilder uriBuilder) {
         Aluno aluno = new Aluno(dados);
+
+        Turma turmaRef = null;
+        if (dados.id_turma() != null) {
+            turmaRef = turmaRepository.getReferenceById(dados.id_turma());
+        }
+
+        aluno.setTurma(turmaRef);
         repository.save(aluno);
         var uri = uriBuilder.path("/aluno/{id}").buildAndExpand(aluno.getId()).toUri();
 
@@ -52,6 +59,7 @@ public class AlunoController {
         if (dados.id_turma() != null) {
             turmaRef = turmaRepository.getReferenceById(dados.id_turma());
         }
+
         aluno.atualizarAluno(dados, turmaRef);
         return ResponseEntity.ok(new DadosDetalhamentoAluno(aluno));
     }
@@ -64,5 +72,4 @@ public class AlunoController {
 
         return ResponseEntity.ok("ALuno " + aluno.getNome() + "excluído(a) com sucesso! ");
     }
-
 }
