@@ -11,4 +11,5 @@ public enum ProblemCode {
     CONFLITO,
     INTEGRIDADE_DADOS,
     ERRO_INTERNO,
+    REGRA_NEGOCIO_VIOLADA
 }
