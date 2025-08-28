@@ -5,9 +5,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Optional;
+
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
     Page<Professor> findAllByAtivoTrue(Pageable paginacao);
 
-    UserDetails findByLogin(String login);
+    Optional<Professor> findByLogin(String email);
 }
