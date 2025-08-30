@@ -11,5 +11,5 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
     Page<Professor> findAllByAtivoTrue(Pageable paginacao);
 
-    UserDetails findByEmail(String email);
+    Optional<Professor> findByEmail(String email);
 }

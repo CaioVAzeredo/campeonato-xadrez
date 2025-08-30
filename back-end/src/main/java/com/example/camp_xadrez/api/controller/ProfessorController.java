@@ -16,7 +16,7 @@ import org.springframework.data.domain.Page;
 
 
 @RestController
-@RequestMapping("professor")
+@RequestMapping("/professor")
 @SecurityRequirement(name = "bearer-key")
 public class ProfessorController {
 

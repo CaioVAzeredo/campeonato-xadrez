@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("turma")
+@RequestMapping("/turma")
 @SecurityRequirement(name = "bearer-key")
 public class TurmaController {
 

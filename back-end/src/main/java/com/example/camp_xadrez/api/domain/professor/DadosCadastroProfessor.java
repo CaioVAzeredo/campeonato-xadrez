@@ -8,9 +8,6 @@ public record DadosCadastroProfessor(
         String nome,
 
         @NotBlank
-        boolean ativo,
-
-        @NotBlank
         @Email
         String email,
 
