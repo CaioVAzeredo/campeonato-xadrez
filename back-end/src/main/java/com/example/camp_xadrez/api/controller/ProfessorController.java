@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,11 +23,17 @@ public class ProfessorController {
 
     @Autowired
     private ProfessorRepository repository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroProfessor dados, UriComponentsBuilder uriBuilder) {
         Professor professor = new Professor(dados);
+
+        if(dados.senha_hash() != null && !dados.senha_hash().startsWith("$2")){
+            professor.setSenha_hash(passwordEncoder.encode(dados.senha_hash()));
+        }
         repository.save(professor);
         var uri = uriBuilder.path("/professor/{id}").buildAndExpand(professor.getId()).toUri();
 
