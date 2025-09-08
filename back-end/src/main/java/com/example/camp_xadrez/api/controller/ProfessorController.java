@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -40,16 +41,27 @@ public class ProfessorController {
         return ResponseEntity.created(uri).body(new DadosDetalhamentoProfessor(professor));
     }
 
-    @GetMapping
+    @GetMapping("/todos")
     public ResponseEntity<Page<DadosListagemProfessor>> listar(@ParameterObject @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemProfessor::new);
         return ResponseEntity.ok(page);
+    }
+    @GetMapping
+    public ResponseEntity<Professor> getPerfilProfessor() {
+        var professor = (Professor) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return ResponseEntity.ok((Professor) professor);
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizarProfessor dados) {
         Professor professor = repository.getReferenceById(id);
+        if(dados.senha_hash() != null && !dados.senha_hash().startsWith("$2")){
+            professor.setSenha_hash(passwordEncoder.encode(dados.senha_hash()));
+        }
         professor.atualizarProfessor(dados);
         return ResponseEntity.ok(new DadosDetalhamentoProfessor(professor));
     }

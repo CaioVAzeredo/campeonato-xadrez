@@ -15,8 +15,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("turma")
@@ -49,6 +52,13 @@ public class TurmaController {
     public ResponseEntity<Page<DadosListagemTurma>> listar(@ParameterObject @PageableDefault(size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemTurma::new);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/minhas")
+    public ResponseEntity<List<Turma>> listarMinhasTurmas() {
+        var professor = (Professor) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var turmas = repository.findByProfessorId(professor.getId());
+        return ResponseEntity.ok(turmas);
     }
 
     @PutMapping("/{id}")
